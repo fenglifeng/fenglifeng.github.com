@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Feng Lifeng's Bolg]]></title>
   <link href="http://fenglifeng.github.com/atom.xml" rel="self"/>
   <link href="http://fenglifeng.github.com/"/>
-  <updated>2012-12-06T10:46:40+08:00</updated>
+  <updated>2012-12-06T13:49:38+08:00</updated>
   <id>http://fenglifeng.github.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Feng Lifeng]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
-    <title type="html"><![CDATA[test]]></title>
+    <title type="html"><![CDATA[the first blog test]]></title>
     <link href="http://fenglifeng.github.com/blog/2012/12/06/test/"/>
     <updated>2012-12-06T09:59:00+08:00</updated>
     <id>http://fenglifeng.github.com/blog/2012/12/06/test</id>
