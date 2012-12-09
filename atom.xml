@@ -4,7 +4,7 @@
   <title><![CDATA[Feng Lifeng's Blog]]></title>
   <link href="http://fenglifeng.github.com/atom.xml" rel="self"/>
   <link href="http://fenglifeng.github.com/"/>
-  <updated>2012-12-09T13:03:50+08:00</updated>
+  <updated>2012-12-09T16:49:45+08:00</updated>
   <id>http://fenglifeng.github.com/</id>
   <author>
     <name><![CDATA[Feng Lifeng]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[矩阵相乘]]></title>
+    <link href="http://fenglifeng.github.com/blog/2012/12/09/multiply/"/>
+    <updated>2012-12-09T00:00:00+08:00</updated>
+    <id>http://fenglifeng.github.com/blog/2012/12/09/multiply</id>
+    <content type="html"><![CDATA[<pre><code>#include &lt;stdio.h&gt;  
+#include &lt;string.h&gt;  
+#include &lt;malloc.h&gt;  
+void matrix_multiply(int *m1,int *m2,   
+     int x,int y,int z)  
+{  
+    int reval[x][z];  
+    memset(reval,0,sizeof(int)*x*y);  
+    int i,j,k;  
+    for(i=0;i&lt;x;i++)  
+        for(j=0;j&lt;z;j++)  
+            for(k=0;k&lt;y;k++){  
+                reval[i][j] += *(m1+i*y+k) * (*(m2+k*z+j));  
+         }  
+    for(i=0;i&lt;x;i++){  
+        for(j=0;j&lt;z;j++)  
+            printf("%6d",reval[i][j]);  
+         printf("\n");  
+     }  
+}  
+int main(void)  
+{  
+     int a[2][3]={2,-6,3,5,1,-1};  
+     int b[4][2]={4,-2,-4,-5,-7,-3,6,7};  
+     matrix_multiply(&amp;a[0][0],&amp;b[0][0],3,2,4);  
+    return 0;  
+
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[the first blog test]]></title>

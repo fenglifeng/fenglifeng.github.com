@@ -9,8 +9,7 @@
   <meta name="author" content="Feng Lifeng">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="#include &lt;stdio.h&gt; #include &lt;string.h&gt; #include &lt;malloc.h&gt; void matrix_multiply(int *m1,int *m2, int x,int y,int z) { int reval[x][ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +70,70 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2012/12/09/multiply/">矩阵相乘</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-09T00:00:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre><code>#include &lt;stdio.h&gt;  
+#include &lt;string.h&gt;  
+#include &lt;malloc.h&gt;  
+void matrix_multiply(int *m1,int *m2,   
+     int x,int y,int z)  
+{  
+    int reval[x][z];  
+    memset(reval,0,sizeof(int)*x*y);  
+    int i,j,k;  
+    for(i=0;i&lt;x;i++)  
+        for(j=0;j&lt;z;j++)  
+            for(k=0;k&lt;y;k++){  
+                reval[i][j] += *(m1+i*y+k) * (*(m2+k*z+j));  
+         }  
+    for(i=0;i&lt;x;i++){  
+        for(j=0;j&lt;z;j++)  
+            printf("%6d",reval[i][j]);  
+         printf("\n");  
+     }  
+}  
+int main(void)  
+{  
+     int a[2][3]={2,-6,3,5,1,-1};  
+     int b[4][2]={4,-2,-4,-5,-7,-3,6,7};  
+     matrix_multiply(&amp;a[0][0],&amp;b[0][0],3,2,4);  
+    return 0;  
+
+}
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2012/12/06/test/">The First Blog Test</a></h1>
     
     
@@ -113,6 +176,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/09/multiply/">矩阵相乘</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/06/test/">the first blog test</a>
