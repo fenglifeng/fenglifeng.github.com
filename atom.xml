@@ -4,7 +4,7 @@
   <title><![CDATA[Feng Lifeng's Blog]]></title>
   <link href="http://fenglifeng.github.com/atom.xml" rel="self"/>
   <link href="http://fenglifeng.github.com/"/>
-  <updated>2012-12-09T16:49:45+08:00</updated>
+  <updated>2012-12-11T22:57:01+08:00</updated>
   <id>http://fenglifeng.github.com/</id>
   <author>
     <name><![CDATA[Feng Lifeng]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[安装octopress]]></title>
+    <link href="http://fenglifeng.github.com/blog/2012/12/09/install_octopress/"/>
+    <updated>2012-12-09T17:15:00+08:00</updated>
+    <id>http://fenglifeng.github.com/blog/2012/12/09/install_octopress</id>
+    <content type="html"><![CDATA[<h2>安装rvm</h2>
+
+<pre><code>curl -L get.rvm.io | bash -s stable
+source ~/.bashrc
+source ~/.bash_profile
+</code></pre>
+
+<h2>安装ruby 1.9.3</h2>
+
+<pre><code>rvm install 1.9.3
+rvm use 1.9.3 --default
+</code></pre>
+
+<p>详细可参见<a href="http://ruby-china.org/wiki/rvm-guide">RVM实用指南</a></p>
+
+<h2>安装octopress</h2>
+
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
+cd octopress
+
+gem install bundler
+bundle install
+
+rake install
+</code></pre>
+
+<h2>配置博客</h2>
+
+<p>可以在_config.yml这个配置文件里修改博客的标题，以及打开博客的评论框之类的。
+比如打开评论框，在默认配置中评论框是disqus的，所以先要去注册一个disqus的用户名(http://disqus.com),然后在配置文件中的disqus_short_name中写上刚注册的名字。</p>
+
+<p><code>rake setup_github_pages</code>  设定git发布，会让你输入git博客所对应的项目ssh的url。这样之后就将博客的url跟配置文件相对应起来。</p>
+
+<h2>写博客</h2>
+
+<p><code>rake new_post['new']</code>会在_post目录下生成一个新的markdown文件，然后写这个markdown文件即可。</p>
+
+<p><code>rake generate</code> 重新生成静态文件</p>
+
+<p><code>rake preview</code>本地浏览，127.0.0.1:4000查看效果</p>
+
+<p><code>rake deploy</code>将内容发布至博客中</p>
+
+<p>一般情况是这样的，写完博客之后先生成静态文件，然后再本地浏览，如果没问题，就可以发布了，如果有问题，就重新写，然后要重新生成静态文件。</p>
+
+<p>如果遇到生产静态文件的时候报错，文件不是utf-8类型的，要将文件转换成utf-8。特别是有中文的情况下特别容易报错，最简单的解决方法是在vim 中使用命令set fileencoding=utf-8</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[矩阵相乘]]></title>
