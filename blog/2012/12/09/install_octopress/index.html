@@ -128,12 +128,15 @@ rake install
 
 <h2>写博客</h2>
 
-<p><code>rake new_post['new']</code>会在_post目录下生成一个新的markdown文件，然后写这个markdown文件即可。<br/>
-<code>rake generate</code> 重新生成静态文件 <br/>
-<code>rake preview</code>本地浏览，127.0.0.1:4000查看效果<br/>
-<code>rake deploy</code>将内容发布至博客中<br/>
+<ul>
+<li><code>rake new_post['new']</code>会在_post目录下生成一个新的markdown文件，然后写这个markdown文件即可。</li>
+<li><code>rake generate</code> 重新生成静态文件</li>
+<li><code>rake preview</code>本地浏览，127.0.0.1:4000查看效果</li>
+<li><code>rake deploy</code>将内容发布至博客中<br/>
 一般情况是这样的，写完博客之后先生成静态文件，然后再本地浏览，如果没问题，就可以发布了，如果有问题，就重新写，然后要重新生成静态文件。<br/>
-如果遇到生产静态文件的时候报错，文件不是utf-8类型的，要将文件转换成utf-8。特别是有中文的情况下特别容易报错，最简单的解决方法是在vim 中使用命令set fileencoding=utf-8</p>
+如果遇到生产静态文件的时候报错，文件不是utf-8类型的，要将文件转换成utf-8。特别是有中文的情况下特别容易报错，最简单的解决方法是在vim 中使用命令set fileencoding=utf-8</li>
+</ul>
+
 </div>
 
 
