@@ -1,24 +1,96 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Feng Lifeng's Blog]]></title>
-  <link href="http://fenglifeng.github.com/atom.xml" rel="self"/>
-  <link href="http://fenglifeng.github.com/"/>
-  <updated>2012-12-13T23:23:52+08:00</updated>
-  <id>http://fenglifeng.github.com/</id>
-  <author>
-    <name><![CDATA[Feng Lifeng]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>信号笔记 - Feng Lifeng's Blog</title>
+  <meta name="author" content="Feng Lifeng">
 
   
-  <entry>
-    <title type="html"><![CDATA[信号笔记]]></title>
-    <link href="http://fenglifeng.github.com/blog/2012/12/13/signal/"/>
-    <updated>2012-12-13T22:49:00+08:00</updated>
-    <id>http://fenglifeng.github.com/blog/2012/12/13/signal</id>
-    <content type="html"><![CDATA[<p>可重入函数：可重入即表示重复进入，首先意味着这个函数可以被中断；其次意味着它除了使用自己栈上的资源以外不依赖任何环境(包括static),这样的函数就是可重入的，可以允许有该函数的多个副本在运行，由于他们使用的是分离的栈，所以不会相互干扰。如果确实需要访问全局变量(包括static)，一定要用注意实施互斥手段。</p>
+  <meta name="description" content="可重入函数：可重入即表示重复进入，首先意味着这个函数可以被中断；其次意味着它除了使用自己栈上的资源以外不依赖任何环境(包括static),这样的函数就是可重入的，可以允许有该函数的多个副本在运行，由于他们使用的是分离的栈，所以不会相互干扰。如果确实需要访问全局变量(包括static)， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://fenglifeng.github.com/blog/2012/12/13/signal/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Feng Lifeng's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Feng Lifeng's Blog</a></h1>
+  
+    <h2>just for fun</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:fenglifeng.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">信号笔记</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-13T22:49:00+08:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>可重入函数：可重入即表示重复进入，首先意味着这个函数可以被中断；其次意味着它除了使用自己栈上的资源以外不依赖任何环境(包括static),这样的函数就是可重入的，可以允许有该函数的多个副本在运行，由于他们使用的是分离的栈，所以不会相互干扰。如果确实需要访问全局变量(包括static)，一定要用注意实施互斥手段。</p>
 
 <p>1) SIGHUP
 本信号在用户终端连接(正常或非正常)结束时发出, 通常是在终端的控制进程结束时, 通知同一session内的各个作业, 这时它们与控制终端不再关联。
@@ -253,105 +325,128 @@ int main(void)
 
 }
 </code></pre>
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[安装octopress]]></title>
-    <link href="http://fenglifeng.github.com/blog/2012/12/09/install_octopress/"/>
-    <updated>2012-12-09T17:15:00+08:00</updated>
-    <id>http://fenglifeng.github.com/blog/2012/12/09/install_octopress</id>
-    <content type="html"><![CDATA[<h2>安装rvm</h2>
 
-<pre><code>curl -L get.rvm.io | bash -s stable
-source ~/.bashrc
-source ~/.bash_profile
-</code></pre>
+<span class="byline author vcard">Posted by <span class="fn">Feng Lifeng</span></span>
 
-<h2>安装ruby 1.9.3</h2>
+      
 
-<pre><code>rvm install 1.9.3
-rvm use 1.9.3 --default
-</code></pre>
 
-<p>详细可参见<a href="http://ruby-china.org/wiki/rvm-guide">RVM实用指南</a></p>
 
-<h2>安装octopress</h2>
 
-<pre><code>git clone git://github.com/imathis/octopress.git octopress
-cd octopress
 
-gem install bundler
-bundle install
 
-rake install
-</code></pre>
 
-<h2>配置博客</h2>
 
-<p>可以在_config.yml这个配置文件里修改博客的标题，以及打开博客的评论框之类的。
-比如打开评论框，在默认配置中评论框是disqus的，所以先要去注册一个disqus的用户名(http://disqus.com),然后在配置文件中的disqus_short_name中写上刚注册的名字。</p>
-
-<p><code>rake setup_github_pages</code>  设定git发布，会让你输入git博客所对应的项目ssh的url。这样之后就将博客的url跟配置文件相对应起来。</p>
-
-<h2>写博客</h2>
-
-<ul>
-<li><code>rake new_post['new']</code>会在_post目录下生成一个新的markdown文件，然后写这个markdown文件即可。</li>
-<li><code>rake generate</code> 重新生成静态文件</li>
-<li><code>rake preview</code>本地浏览，127.0.0.1:4000查看效果</li>
-<li><code>rake deploy</code>将内容发布至博客中<br/>
-一般情况是这样的，写完博客之后先生成静态文件，然后再本地浏览，如果没问题，就可以发布了，如果有问题，就重新写，然后要重新生成静态文件。<br/>
-如果遇到生产静态文件的时候报错，文件不是utf-8类型的，要将文件转换成utf-8。特别是有中文的情况下特别容易报错，最简单的解决方法是在vim 中使用命令set fileencoding=utf-8</li>
-</ul>
-
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[矩阵相乘]]></title>
-    <link href="http://fenglifeng.github.com/blog/2012/12/09/multiply/"/>
-    <updated>2012-12-09T00:00:00+08:00</updated>
-    <id>http://fenglifeng.github.com/blog/2012/12/09/multiply</id>
-    <content type="html"><![CDATA[<pre><code>#include &lt;stdio.h&gt;  
-#include &lt;string.h&gt;  
-#include &lt;malloc.h&gt;  
-void matrix_multiply(int *m1,int *m2,   
-     int x,int y,int z)  
-{  
-    int reval[x][z];  
-    memset(reval,0,sizeof(int)*x*y);  
-    int i,j,k;  
-    for(i=0;i&lt;x;i++)  
-        for(j=0;j&lt;z;j++)  
-            for(k=0;k&lt;y;k++){  
-                reval[i][j] += *(m1+i*y+k) * (*(m2+k*z+j));  
-         }  
-    for(i=0;i&lt;x;i++){  
-        for(j=0;j&lt;z;j++)  
-            printf("%6d",reval[i][j]);  
-         printf("\n");  
-     }  
-}  
-int main(void)  
-{  
-     int a[2][3]={2,-6,3,5,1,-1};  
-     int b[4][2]={4,-2,-4,-5,-7,-3,6,7};  
-     matrix_multiply(&amp;a[0][0],&amp;b[0][0],3,2,4);  
-    return 0;  
 
-}
-</code></pre>
-]]></content>
-  </entry>
+
+<time datetime="2012-12-13T22:49:00+08:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
   
-  <entry>
-    <title type="html"><![CDATA[the first blog test]]></title>
-    <link href="http://fenglifeng.github.com/blog/2012/12/06/test/"/>
-    <updated>2012-12-06T09:59:00+08:00</updated>
-    <id>http://fenglifeng.github.com/blog/2012/12/06/test</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
   
-</feed>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/09/install_octopress/" title="Previous Post: 安装octopress">&laquo; 安装octopress</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/13/signal/">信号笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/09/install_octopress/">安装octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/09/multiply/">矩阵相乘</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/06/test/">the first blog test</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Feng Lifeng -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'fenglifeng';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://fenglifeng.github.com/blog/2012/12/13/signal/';
+        var disqus_url = 'http://fenglifeng.github.com/blog/2012/12/13/signal/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
