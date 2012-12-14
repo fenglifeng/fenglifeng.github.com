@@ -287,6 +287,52 @@ int main(void)
 
 }
 </code></pre>
+
+<p>题外：<br/>
+信号应用在异步处理中很明显，其中最明显的是select，这个一般人最喜欢用的在socket通信里。</p>
+
+<p>select <br/>
+#include &lt;sys/select.h><br/>
+int select(int maxfd,fd_set *readfds,fd_set *writefds,fd_set *exceptfds,struct timeval *timeout)<br/>
+readfds,writefds,exceptfds要让内核测试读、写、异常<br/>
+void FD_ZERO(fd_set *fdset)<br/>
+void FD_SET(int fd,fd_set *fdset)<br/>
+void FD_CLR(int fd,fd_set *fdset)<br/>
+int  FD_ISSET(int fd,fd_set *fdset)<br/>
+如果我们对读、写、异常中其中一个不感兴趣，可以将设置成NULL<br/>
+其实可以这么理解,select就是对0～maxfd(不包括maxfd)的文件描述符里做轮寻，当检测到描述符信号变话后，唤醒，相应的fds被置位<br/>
+但是由于内核中对描述符有个最大的限制，也就是select至多监控256个文件描述符。</p>
+
+<p>poll<br/>
+#include &lt;poll.h><br/>
+int poll(struct pollfd *fdarray,unsigned long nfds,int timeout)<br/>
+返回>0;数组fdarray中已经被激发的文件数量<br/>
+==0 ;超时了，都没有被激发的文件<br/>
+==-1;表示poll发生错误</p>
+
+<pre><code>struct pollfd{  
+    int fd;     //文件描述符  
+    short events;   //等待的事件  
+    showr revents;  //实际发生了的事件  
+}  
+</code></pre>
+
+<p>timeout 的单位是ms<br/>
+事件描述符:<br/>
+events域中请求的任何事件都可能在revents域中返回。合法的事件如下：<br/>
+POLLIN          有数据可读。<br/>
+POLLRDNORM      有普通数据可读。<br/>
+POLLRDBAND      有优先数据可读。<br/>
+POLLPRI         有紧迫数据可读。<br/>
+POLLOUT         写数据不会导致阻塞。<br/>
+POLLWRNORM      写普通数据不会导致阻塞。<br/>
+POLLWRBAND      写优先数据不会导致阻塞。<br/>
+此外，revents域中还可能返回下列事件：<br/>
+POLLER          指定的文件描述符发生错误。<br/>
+POLLHUP         指定的文件描述符挂起事件。<br/>
+POLLNVAL        指定的文件描述符非法。</p>
+
+<p>poll的效率比select高很多</p>
 </div>
 
 
