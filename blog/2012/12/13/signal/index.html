@@ -270,45 +270,7 @@ void alarm_world(int sig)
 }
 int main(void)
 {
-    abort();
-//  signal(SIGALRM,&amp;alarm_world);
-    signal(SIGTERM,&amp;hello_world);
-//  signal(SIGINT,&amp;bye_world);
-    signal(SIGKILL,&amp;kill_world);
-//  raise(SIGTERM);
-    alarm(3);
-    //raise(SIGKILL);
-    while(1){
-        sleep(1);
-    }
-    pause();
-    printf("exit main\n");
-    return 0;
-
-}
-void hello_world(int sig )
-{
-    printf("hello world\n");
-}
-
-void bye_world(int sig)
-{
-    printf("say bye bye!\n");
-    exit(1);
-}
-
-void kill_world(int sig)
-{
-    printf("kill world\n");
-}
-void alarm_world(int sig)
-{
-    printf("alarm world\n");
-    alarm(0);
-}
-int main(void)
-{
-    abort();
+//  abort();
 //  signal(SIGALRM,&amp;alarm_world);
     signal(SIGTERM,&amp;hello_world);
 //  signal(SIGINT,&amp;bye_world);
