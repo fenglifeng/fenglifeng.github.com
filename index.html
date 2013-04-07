@@ -9,7 +9,7 @@
   <meta name="author" content="Feng Lifeng">
 
   
-  <meta name="description" content="可重入函数：可重入即表示重复进入，首先意味着这个函数可以被中断；其次意味着它除了使用自己栈上的资源以外不依赖任何环境(包括static),这样的函数就是可重入的，可以允许有该函数的多个副本在运行，由于他们使用的是分离的栈，所以不会相互干扰。如果确实需要访问全局变量(包括static)， &hellip;">
+  <meta name="description" content="僵尸进程的形成:僵尸进程的形成，最简单的理解是fork或者exec出来的子进程资源没有被完全回收。 僵尸进程的危害:过多的僵尸进程会导致耗尽系统的进程表资源，有可能会导致系统直接挂起。 僵尸进程的产生主要有两种情况： 1、当子进程结束的时候会向父进程发送SIGCHLD的信号，如果父进程忽略了此信号 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,93 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/07/jiang-shi-jin-cheng/">僵尸进程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-07T14:26:00+08:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>僵尸进程的形成:僵尸进程的形成，最简单的理解是fork或者exec出来的子进程资源没有被完全回收。</p>
+
+<p>僵尸进程的危害:过多的僵尸进程会导致耗尽系统的进程表资源，有可能会导致系统直接挂起。</p>
+
+<p>僵尸进程的产生主要有两种情况：</p>
+
+<p>1、当子进程结束的时候会向父进程发送SIGCHLD的信号，如果父进程忽略了此信号，子进程就成僵尸进程。</p>
+
+<p>2、父进程没有用wait或者waitpid来等待子进程的结束。</p>
+
+<h2>可以用以下的三种方法来防止僵尸进程：</h2>
+
+<p>1、父进程直接屏蔽SIGCHLD信号</p>
+
+<pre><code>signal(SIGCHLD,SIG_IGN);
+</code></pre>
+
+<p>上面那行代码就是父进程屏蔽SIGCHLD，直接将SIGCHLD扔给init进程，也就是linux系统进程处理，让它实现回收。</p>
+
+<p>2、父进程处理signal信号</p>
+
+<pre><code>signal(SIGCHLD,sig_chld);
+
+void sig_chld(int signo)
+{
+    pid_t pid;
+    int stat;
+
+    while((pid = waitpid(-1,&amp;stat,WNOHANG))&gt;0)
+        printf("child %d terminated\n",pid);
+    return;
+}
+</code></pre>
+
+<p>上面的代码，父进程捕获子进程发来的SIGCHLD信号，再通过waitpid（）函数来回收子进程资源。</p>
+
+<p>3、两个fork，真正工作的是孙进程。</p>
+
+<pre><code>pid_t pid;
+if((pid = fork()) == 0){    //first fork ,in child process
+    if((pid = fork()) == 0）{  //second fork,in grandson process
+    //do something
+        exit(0);  //exit grandson process
+    }
+    exit(0);//exit son process
+}
+if(waitpid(pid,NULL,0) != pid){     //wait for son process, means the first fork
+    printf("error in waitpid\n");
+}
+</code></pre>
+
+<p>上面的代码可以这么理解，真正工作的是第二个fork出来的进程，但是第二个fork出来的进程，当它完成工作后，发觉它的父进程已经被回收了，那么它就是一个孤儿进程，它会被init进程接管，这样它的资源会被init进程回收。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -535,6 +622,10 @@ int main(void)
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/07/jiang-shi-jin-cheng/">僵尸进程</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/13/signal/">信号笔记</a>
       </li>
     
@@ -564,7 +655,7 @@ int main(void)
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Feng Lifeng -
+  Copyright &copy; 2013 - Feng Lifeng -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

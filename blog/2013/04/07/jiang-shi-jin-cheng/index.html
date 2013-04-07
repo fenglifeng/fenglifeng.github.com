@@ -5,14 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>安装octopress - Feng Lifeng's Blog</title>
+  <title>僵尸进程 - Feng Lifeng's Blog</title>
   <meta name="author" content="Feng Lifeng">
 
   
-  <meta name="description" content="安装rvm curl -L get.rvm.io | bash -s stable
-source ~/.bashrc
-source ~/.bash_profile 安装ruby 1.9.3 rvm install 1.9.3
-rvm use 1.9.3 --default 详细可参见RVM实用指南 &hellip;">
+  <meta name="description" content="僵尸进程的形成:僵尸进程的形成，最简单的理解是fork或者exec出来的子进程资源没有被完全回收。 僵尸进程的危害:过多的僵尸进程会导致耗尽系统的进程表资源，有可能会导致系统直接挂起。 僵尸进程的产生主要有两种情况： 1、当子进程结束的时候会向父进程发送SIGCHLD的信号，如果父进程忽略了此信号 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +18,7 @@ rvm use 1.9.3 --default 详细可参见RVM实用指南 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://fenglifeng.github.com/blog/2012/12/09/install_octopress/">
+  <link rel="canonical" href="http://fenglifeng.github.com/blog/2013/04/07/jiang-shi-jin-cheng/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -70,7 +67,7 @@ rvm use 1.9.3 --default 详细可参见RVM实用指南 &hellip;">
   
   <header>
     
-      <h1 class="entry-title">安装octopress</h1>
+      <h1 class="entry-title">僵尸进程</h1>
     
     
       <p class="meta">
@@ -86,57 +83,65 @@ rvm use 1.9.3 --default 详细可参见RVM实用指南 &hellip;">
   
 
 
-<time datetime="2012-12-09T17:15:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
+<time datetime="2013-04-07T14:26:00+08:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>安装rvm</h2>
+<div class="entry-content"><p>僵尸进程的形成:僵尸进程的形成，最简单的理解是fork或者exec出来的子进程资源没有被完全回收。</p>
 
-<pre><code>curl -L get.rvm.io | bash -s stable
-source ~/.bashrc
-source ~/.bash_profile
+<p>僵尸进程的危害:过多的僵尸进程会导致耗尽系统的进程表资源，有可能会导致系统直接挂起。</p>
+
+<p>僵尸进程的产生主要有两种情况：</p>
+
+<p>1、当子进程结束的时候会向父进程发送SIGCHLD的信号，如果父进程忽略了此信号，子进程就成僵尸进程。</p>
+
+<p>2、父进程没有用wait或者waitpid来等待子进程的结束。</p>
+
+<h2>可以用以下的三种方法来防止僵尸进程：</h2>
+
+<p>1、父进程直接屏蔽SIGCHLD信号</p>
+
+<pre><code>signal(SIGCHLD,SIG_IGN);
 </code></pre>
 
-<h2>安装ruby 1.9.3</h2>
+<p>上面那行代码就是父进程屏蔽SIGCHLD，直接将SIGCHLD扔给init进程，也就是linux系统进程处理，让它实现回收。</p>
 
-<pre><code>rvm install 1.9.3
-rvm use 1.9.3 --default
+<p>2、父进程处理signal信号</p>
+
+<pre><code>signal(SIGCHLD,sig_chld);
+
+void sig_chld(int signo)
+{
+    pid_t pid;
+    int stat;
+
+    while((pid = waitpid(-1,&amp;stat,WNOHANG))&gt;0)
+        printf("child %d terminated\n",pid);
+    return;
+}
 </code></pre>
 
-<p>详细可参见<a href="http://ruby-china.org/wiki/rvm-guide">RVM实用指南</a></p>
+<p>上面的代码，父进程捕获子进程发来的SIGCHLD信号，再通过waitpid（）函数来回收子进程资源。</p>
 
-<h2>安装octopress</h2>
+<p>3、两个fork，真正工作的是孙进程。</p>
 
-<pre><code>git clone git://github.com/imathis/octopress.git octopress
-cd octopress
-
-gem install bundler
-bundle install
-
-rake install
+<pre><code>pid_t pid;
+if((pid = fork()) == 0){    //first fork ,in child process
+    if((pid = fork()) == 0）{  //second fork,in grandson process
+    //do something
+        exit(0);  //exit grandson process
+    }
+    exit(0);//exit son process
+}
+if(waitpid(pid,NULL,0) != pid){     //wait for son process, means the first fork
+    printf("error in waitpid\n");
+}
 </code></pre>
 
-<h2>配置博客</h2>
-
-<p>可以在_config.yml这个配置文件里修改博客的标题，以及打开博客的评论框之类的。
-比如打开评论框，在默认配置中评论框是disqus的，所以先要去注册一个disqus的用户名(http://disqus.com),然后在配置文件中的disqus_short_name中写上刚注册的名字。</p>
-
-<p><code>rake setup_github_pages</code>  设定git发布，会让你输入git博客所对应的项目ssh的url。这样之后就将博客的url跟配置文件相对应起来。</p>
-
-<h2>写博客</h2>
-
-<ul>
-<li><code>rake new_post['new']</code>会在_post目录下生成一个新的markdown文件，然后写这个markdown文件即可。</li>
-<li><code>rake generate</code> 重新生成静态文件</li>
-<li><code>rake preview</code>本地浏览，127.0.0.1:4000查看效果</li>
-<li><code>rake deploy</code>将内容发布至博客中<br/>
-一般情况是这样的，写完博客之后先生成静态文件，然后再本地浏览，如果没问题，就可以发布了，如果有问题，就重新写，然后要重新生成静态文件。<br/>
-如果遇到生产静态文件的时候报错，文件不是utf-8类型的，要将文件转换成utf-8。特别是有中文的情况下特别容易报错，最简单的解决方法是在vim 中使用命令set fileencoding=utf-8</li>
-</ul>
-
+<p>上面的代码可以这么理解，真正工作的是第二个fork出来的进程，但是第二个fork出来的进程，当它完成工作后，发觉它的父进程已经被回收了，那么它就是一个孤儿进程，它会被init进程接管，这样它的资源会被init进程回收。</p>
 </div>
 
 
@@ -159,7 +164,7 @@ rake install
   
 
 
-<time datetime="2012-12-09T17:15:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
+<time datetime="2013-04-07T14:26:00+08:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
       
 
 
@@ -175,10 +180,8 @@ rake install
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/12/09/multiply/" title="Previous Post: 矩阵相乘">&laquo; 矩阵相乘</a>
+        <a class="basic-alignment left" href="/blog/2012/12/13/signal/" title="Previous Post: 信号笔记">&laquo; 信号笔记</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/12/13/signal/" title="Next Post: 信号笔记">信号笔记 &raquo;</a>
       
     </p>
   </footer>
@@ -245,8 +248,8 @@ rake install
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://fenglifeng.github.com/blog/2012/12/09/install_octopress/';
-        var disqus_url = 'http://fenglifeng.github.com/blog/2012/12/09/install_octopress/';
+        var disqus_identifier = 'http://fenglifeng.github.com/blog/2013/04/07/jiang-shi-jin-cheng/';
+        var disqus_url = 'http://fenglifeng.github.com/blog/2013/04/07/jiang-shi-jin-cheng/';
         var disqus_script = 'embed.js';
       
     (function () {

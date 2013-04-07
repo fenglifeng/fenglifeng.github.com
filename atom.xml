@@ -4,7 +4,7 @@
   <title><![CDATA[Feng Lifeng's Blog]]></title>
   <link href="http://fenglifeng.github.com/atom.xml" rel="self"/>
   <link href="http://fenglifeng.github.com/"/>
-  <updated>2012-12-14T10:46:14+08:00</updated>
+  <updated>2013-04-07T15:10:15+08:00</updated>
   <id>http://fenglifeng.github.com/</id>
   <author>
     <name><![CDATA[Feng Lifeng]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[僵尸进程]]></title>
+    <link href="http://fenglifeng.github.com/blog/2013/04/07/jiang-shi-jin-cheng/"/>
+    <updated>2013-04-07T14:26:00+08:00</updated>
+    <id>http://fenglifeng.github.com/blog/2013/04/07/jiang-shi-jin-cheng</id>
+    <content type="html"><![CDATA[<p>僵尸进程的形成:僵尸进程的形成，最简单的理解是fork或者exec出来的子进程资源没有被完全回收。</p>
+
+<p>僵尸进程的危害:过多的僵尸进程会导致耗尽系统的进程表资源，有可能会导致系统直接挂起。</p>
+
+<p>僵尸进程的产生主要有两种情况：</p>
+
+<p>1、当子进程结束的时候会向父进程发送SIGCHLD的信号，如果父进程忽略了此信号，子进程就成僵尸进程。</p>
+
+<p>2、父进程没有用wait或者waitpid来等待子进程的结束。</p>
+
+<h2>可以用以下的三种方法来防止僵尸进程：</h2>
+
+<p>1、父进程直接屏蔽SIGCHLD信号</p>
+
+<pre><code>signal(SIGCHLD,SIG_IGN);
+</code></pre>
+
+<p>上面那行代码就是父进程屏蔽SIGCHLD，直接将SIGCHLD扔给init进程，也就是linux系统进程处理，让它实现回收。</p>
+
+<p>2、父进程处理signal信号</p>
+
+<pre><code>signal(SIGCHLD,sig_chld);
+
+void sig_chld(int signo)
+{
+    pid_t pid;
+    int stat;
+
+    while((pid = waitpid(-1,&amp;stat,WNOHANG))&gt;0)
+        printf("child %d terminated\n",pid);
+    return;
+}
+</code></pre>
+
+<p>上面的代码，父进程捕获子进程发来的SIGCHLD信号，再通过waitpid（）函数来回收子进程资源。</p>
+
+<p>3、两个fork，真正工作的是孙进程。</p>
+
+<pre><code>pid_t pid;
+if((pid = fork()) == 0){    //first fork ,in child process
+    if((pid = fork()) == 0）{  //second fork,in grandson process
+    //do something
+        exit(0);  //exit grandson process
+    }
+    exit(0);//exit son process
+}
+if(waitpid(pid,NULL,0) != pid){     //wait for son process, means the first fork
+    printf("error in waitpid\n");
+}
+</code></pre>
+
+<p>上面的代码可以这么理解，真正工作的是第二个fork出来的进程，但是第二个fork出来的进程，当它完成工作后，发觉它的父进程已经被回收了，那么它就是一个孤儿进程，它会被init进程接管，这样它的资源会被init进程回收。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[信号笔记]]></title>
